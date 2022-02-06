@@ -1,6 +1,7 @@
 package com.alifmaulanarizqi.workoutapp
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +10,10 @@ import kotlinx.coroutines.flow.Flow
 interface HistoryDAO {
 
     @Insert
-    suspend fun insert(employeeEntity: HistoryEntity)
+    suspend fun insert(historyEntity: HistoryEntity)
+
+    @Delete
+    suspend fun delete(historyEntity: HistoryEntity)
 
     @Query("SELECT * FROM 'history'")
     fun fetchAllHistory(): Flow<List<HistoryEntity>>

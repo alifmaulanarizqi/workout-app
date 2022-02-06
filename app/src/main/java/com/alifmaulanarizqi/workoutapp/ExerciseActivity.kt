@@ -125,7 +125,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun startRestTimer() {
-        restTimer = object: CountDownTimer(3000, 1000) {
+        restTimer = object: CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 restProgress++
                 binding?.tvRestView?.text = (11 - restProgress).toString()
@@ -143,7 +143,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun startExerciseTimer() {
-        exerciseTimer = object: CountDownTimer(3000, 1000) {
+        exerciseTimer = object: CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 exerciseProgress++
                 binding?.tvExerciseView?.text = (31 - exerciseProgress).toString()

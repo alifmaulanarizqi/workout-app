@@ -1,11 +1,11 @@
 package com.alifmaulanarizqi.workoutapp
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.alifmaulanarizqi.workoutapp.databinding.ActivityMainBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -46,14 +46,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun caloriesCounter(historyDAO: HistoryDAO) {
         lifecycleScope.launch {
-            binding?.tvManyCalories?.text = historyDAO.calCounter().toString()
+            if(historyDAO.calCounter() != null)
+                binding?.tvManyCalories?.text = historyDAO.calCounter().toString()
+            else
+                binding?.tvManyCalories?.text = "0.0"
         }
     }
 
     private fun minutesCounter(historyDAO: HistoryDAO) {
         lifecycleScope.launch {
-            binding?.tvManyMinutes?.text = historyDAO.timeCounter().toString()
+            if(historyDAO.timeCounter() != null)
+                binding?.tvManyMinutes?.text = historyDAO.timeCounter().toString()
+            else
+                binding?.tvManyMinutes?.text = "0"
         }
+    }
+
+    private fun deleteRecordAlertDialog(id: Int, historyDAO: HistoryDAO) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Delete Record")
+        builder.setPositiveButton("Yes") { dialogInterface, _ ->
+            lifecycleScope.launch {
+                historyDAO.delete(HistoryEntity(id=id))
+            }
+            dialogInterface.dismiss()
+        }
+        builder.setNegativeButton("No") { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
     override fun onDestroy() {
